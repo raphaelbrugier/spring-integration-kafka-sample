@@ -1,4 +1,4 @@
-package com.github.rbrugier;
+package com.github.rbrugier.raw;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -12,7 +12,7 @@ import java.util.Properties;
 public class MainProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(MainProducer.class);
-    public static final String TOPIC_NAME = "test3partitions";
+    public static final String TOPIC_NAME = "test";
 
     public static void main(String[] args) {
         Properties props = new Properties();
@@ -30,15 +30,19 @@ public class MainProducer {
         for (int i = 0; i < 100; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, "value-" + i);
             producer.send(record);
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+//            sleep();
         }
 
         producer.close();
 
         logger.info("ended");
+    }
+
+    private static void sleep() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

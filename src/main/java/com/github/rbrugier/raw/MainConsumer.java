@@ -1,4 +1,4 @@
-package com.github.rbrugier;
+package com.github.rbrugier.raw;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -9,8 +9,8 @@ import java.util.Properties;
 
 public class MainConsumer {
 
-    public static final String TOPIC_NAME = "test3partitions";
-    public static final String GROUP_NAME = "mygroup2";
+    public static final String TOPIC_NAME = "test";
+    public static final String GROUP_NAME = "mygroup";
 
     public static void main(String[] args) {
         Properties props = new Properties();
