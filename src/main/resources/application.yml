@@ -3,3 +3,6 @@ kafka:
     address: localhost:9092
   zookeeper:
     connect: localhost:2181
+  topic:
+    name: test
+
