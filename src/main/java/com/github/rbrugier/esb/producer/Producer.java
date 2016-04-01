@@ -17,6 +17,9 @@ import org.springframework.kafka.core.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+
+import static com.github.rbrugier.esb.producer.ResponseHandler.*;
 
 @SpringBootApplication
 @EnableKafka
@@ -32,6 +35,9 @@ public class Producer {
     @Autowired
     private KafkaTemplate<Integer, MessageWrapper> template;
 
+    @Autowired
+    ResponseHandler responseHandler;
+
     public static void main(String[] args) {
         ConfigurableApplicationContext context
                 = new SpringApplicationBuilder(Producer.class)
@@ -41,14 +47,26 @@ public class Producer {
         Producer app = context.getBean(Producer.class);
 
         app.send();
-
     }
 
     public void send() {
-        for (int i = 0; i <100 ; i++) {
+        for (int i = 0; i <10 ; i++) {
             String value = "value-" + i;
-            MessageWrapper message = new MessageWrapper(genCommandId(), GROUP_ID, "value");
-            template.convertAndSend(topic, message);
+            String commandId = genCommandId();
+            MessageWrapper message = new MessageWrapper(commandId, GROUP_ID, value);
+            responseHandler.attach(new ResponseHandler.Observer(commandId) {
+                @Override
+                void accept(String value) {
+                    System.out.println(value);
+                }
+            });
+            try {
+                template.syncConvertAndSend(topic, message);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 

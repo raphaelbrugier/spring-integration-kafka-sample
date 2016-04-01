@@ -5,12 +5,13 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ResponseHandler {
 
-    public abstract class Observer {
+    public static abstract class Observer {
 
         private final String commandId;
 
@@ -21,7 +22,7 @@ public class ResponseHandler {
         abstract void accept(String value);
     }
 
-    private List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = Collections.synchronizedList(new ArrayList<>());
 
     @KafkaListener(topicPattern = "response")
     public void handleResponse(MessageWrapper messageWrapper) {
