@@ -13,10 +13,11 @@ public class MainProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(MainProducer.class);
     public static final String TOPIC_NAME = "test";
+    public static final String HOST = "localhost";
 
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", HOST + ":9092");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
