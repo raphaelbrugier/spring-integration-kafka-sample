@@ -1,8 +1,8 @@
 kafka:
   broker:
-    address: 192.168.99.100:9092
+    address: localhost:9092
   zookeeper:
-    connect: 192.168.99.100:2181
+    connect: localhost:2181
   topic:
     name: test
 

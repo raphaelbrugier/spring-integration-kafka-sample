@@ -1,8 +1,8 @@
 package com.github.rbrugier.esb.serial;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.apache.kafka.common.serialization.Serializer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -16,10 +16,10 @@ public class SerializableSerializer implements Serializer<Serializable> {
 
     @Override
     public byte[] serialize(String topic, Serializable data) {
-        try (ByteOutputStream bos = new ByteOutputStream();
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream outputStream = new ObjectOutputStream(bos)) {
             outputStream.writeObject(data);
-            return bos.getBytes();
+            return bos.toByteArray();
         } catch (IOException e) {
 
         }
